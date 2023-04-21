@@ -36,8 +36,18 @@ pipeline {
       }
     }
 
+    stage('Push') {
+      steps {
+        script {
+          docker.withRegistry('', 'dockerhub-id') {
+            docker.image("${registry}:${env.BUILD_ID}").tag('Docker Image NodeJS app').push('latest')}
+          }
+
+        }
+      }
+
+    }
+    environment {
+      registry = 'konstantinfomenko/cicd-pipeline-task'
+    }
   }
-  environment {
-    registry = 'konstantinfomenko/cicd-pipeline-task'
-  }
-}
