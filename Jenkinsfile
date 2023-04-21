@@ -40,7 +40,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', 'dockerhub-id') {
-            docker.image("${registry}:${env.BUILD_ID}").tag('Docker Image NodeJS app').push('latest')}
+            docker.image("${registry}:${env.BUILD_ID}").push('latest')}
           }
 
         }
