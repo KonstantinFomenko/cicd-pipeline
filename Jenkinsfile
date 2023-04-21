@@ -7,6 +7,15 @@ pipeline {
       }
     }
 
+    stage('App Build') {
+      steps {
+        script {
+          sh './cicd-pipeline/scripts/build.sh'
+        }
+
+      }
+    }
+
   }
   environment {
     registry = 'konstantinfomenko/cicd-pipeline-task'
