@@ -10,7 +10,8 @@ pipeline {
     stage('App Build') {
       steps {
         script {
-          sh './cicd-pipeline/scripts/build.sh'
+          sh 'chmod +x ./scripts/build.sh'
+          sh './scripts/build.sh'
         }
 
       }
