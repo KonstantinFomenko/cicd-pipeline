@@ -36,22 +36,16 @@ pipeline {
       }
     }
 
-    stage('Push') {
+    stage('Push Docker Image') {
       steps {
         script {
           docker.withRegistry('', 'dockerhub-id') {
             def image = docker.image("${REGISTRY}:${env.BUILD_NUMBER}")
-            image.push()
-            image.push("latest")
-            image.push("${env.BRANCH_NAME}-${env.GIT_COMMIT}")
-            image.push("${env.BRANCH_NAME}-latest")
-            image.push("commit-${env.GIT_COMMIT}")
+            image.push("${env.BRANCH_NAME}-commit-${env.GIT_COMMIT_SHORT}-${env.GITHUB_URL.replace('https://github.com/', '').replace('.git', '')}")
           }
         }
       }
     }
-
-
 
     }
     environment {
