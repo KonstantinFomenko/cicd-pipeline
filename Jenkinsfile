@@ -40,8 +40,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', 'dockerhub-id') {
-            def image = docker.image("${REGISTRY}:${env.BUILD_NUMBER}")
-            image.push("${env.BRANCH_NAME}-commit-${env.GIT_COMMIT_SHORT}-${env.GITHUB_URL.replace('https://github.com/', '').replace('.git', '')}")
+            docker.image("${registry}:${env.BUILD_ID}").push('latest')
           }
         }
       }
