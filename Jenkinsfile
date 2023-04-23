@@ -40,14 +40,17 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', 'dockerhub-id') {
-            def image = docker.image("${registry}:${env.BUILD_ID}")
-            image.tag('latest')
-            image.tag("Image version-${env.BUILD_NUMBER}")
+            def image = docker.image("${REGISTRY}:${env.BUILD_NUMBER}")
             image.push()
+            image.push("latest")
+            image.push("${env.BRANCH_NAME}-${env.GIT_COMMIT}")
+            image.push("${env.BRANCH_NAME}-latest")
+            image.push("commit-${env.GIT_COMMIT}")
           }
         }
       }
     }
+
 
 
     }
