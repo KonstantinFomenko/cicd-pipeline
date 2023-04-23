@@ -37,13 +37,23 @@ pipeline {
     }
 
     stage('Push Docker Image') {
-      steps {
-        script {
-          docker.withRegistry('', 'dockerhub-id') {
-            docker.image("${registry}:${env.BUILD_ID}").push('latest')
-          }
+        steps {
+            script {
+                def dockerImage = docker.build("${registry}:${env.BUILD_ID}")
+                dockerImage.tag("${registry}:latest")
+                docker.withRegistry('', 'dockerhub-id') {
+                    dockerImage.push()
+                }
+            }
         }
-      }
+        post {
+            always {
+                echo "Docker push operation completed"
+            }
+            success {
+                echo "Docker image pushed successfully"
+            }
+        }
     }
 
     }
