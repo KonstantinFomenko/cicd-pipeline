@@ -40,11 +40,9 @@ pipeline {
         steps {
             script {
                 def dockerImage = docker.build("${registry}:${env.BUILD_ID}")
-                def commitUrl = sh(returnStdout: true, script: 'echo ${GIT_URL}/${GIT_COMMIT}').trim()
-                def commitHash = sh(returnStdout: true, script: 'echo ${GIT_COMMIT}').trim()
-                def commitTag = "${commitHash}@${commitUrl}"
+                def commitUrl = sh(returnStdout: true, script: 'echo ${GIT_URL}').trim()
                 dockerImage.tag("${env.BUILD_ID}")
-                dockerImage.tag("${commitTag}")
+                dockerImage.tag("${commitUrl}")
                 dockerImage.tag("latest")
                 docker.withRegistry('', 'dockerhub-id') {
                     dockerImage.push()
