@@ -39,8 +39,7 @@ pipeline {
     stage('Push Docker Image') {
         steps {
             script {
-                def dockerImage = docker.build("${registry}:${env.BUILD_ID}")
-                dockerImage.tag("latest")
+                def dockerImage = docker.build("${registry}:"Build#":${env.BUILD_ID}")
                 docker.withRegistry('', 'dockerhub-id') {
                     dockerImage.push()
                 }
