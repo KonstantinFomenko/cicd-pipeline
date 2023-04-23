@@ -40,11 +40,15 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', 'dockerhub-id') {
-            docker.image("${registry}:${env.BUILD_ID}").push('latest')}
+            def image = docker.image("${registry}:${env.BUILD_ID}")
+            image.tag('latest')
+            image.tag("Image version-${env.BUILD_NUMBER}")
+            image.push()
           }
-
         }
       }
+    }
+
 
     }
     environment {
